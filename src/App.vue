@@ -34,6 +34,14 @@ function addTask() {
   }
 }
 
+function toggleCompleted(id) {
+  for (let task of tasks.value) {
+    if (task.id === id) {
+      task.completed = !task.completed;
+    }
+  }
+}
+
 watch(
   () => newTask.value.name,
   newValue => {
@@ -73,7 +81,7 @@ watch(
     </div>
 
     <div class="tasks">
-      <Task v-for="task in tasks" :key="task.id" :task="task" />
+      <Task v-for="task in tasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
     </div>
 
     <div class="add-task">

@@ -1,30 +1,56 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 
 const tasks = ref(TASKSDATA);
+const isTaskNameError = ref(false);
+const isTaskDescriptionError = ref(false);
 
-let newTask = {
+const newTask = ref({
   name: '',
   description: '',
   completed: false,
-};
+});
 
 function addTask() {
-  if (newTask.name && newTask.description) {
-    newTask.id = Math.max(...tasks.value.map(task => task.id)) + 1;
-    tasks.value.push(newTask);
+  if (newTask.value.name && newTask.value.description) {
+    newTask.value.id = Math.max(...tasks.value.map(task => task.id)) + 1;
+    tasks.value.push({ ...newTask.value });
 
-    newTask = {
+    newTask.value = {
       name: '',
       description: '',
       completed: false,
     };
   } else {
-    alert('Name and description are required');
+    if (newTask.value.name === '') {
+      isTaskNameError.value = true;
+    }
+
+    if (newTask.value.description === '') {
+      isTaskDescriptionError.value = true;
+    }
   }
 }
+
+watch(
+  () => newTask.value.name,
+  newValue => {
+    if (newValue) {
+      isTaskNameError.value = false;
+    }
+  }
+);
+
+watch(
+  () => newTask.value.description,
+  newValue => {
+    if (newValue) {
+      isTaskDescriptionError.value = false;
+    }
+  }
+);
 </script>
 
 <template>
@@ -52,13 +78,13 @@ function addTask() {
 
     <div class="add-task">
       <h3>Add a new task</h3>
-      <div>
+      <div :class="{ error: isTaskNameError }">
         <input type="text" name="title" placeholder="Enter a title..." v-model="newTask.name" />
-        <div class="error-text"><div>Name is required</div></div>
+        <div class="error-text"><div v-if="isTaskNameError">Name is required</div></div>
       </div>
-      <div>
+      <div :class="{ error: isTaskDescriptionError }">
         <textarea name="description" rows="4" placeholder="Enter a description..." v-model="newTask.description" />
-        <div class="error-text"><div>Description is required</div></div>
+        <div class="error-text"><div v-if="isTaskDescriptionError">Description is required</div></div>
       </div>
       <button class="btn primary" @click="addTask">Add Task</button>
     </div>

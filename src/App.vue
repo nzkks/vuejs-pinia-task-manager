@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+import TASKSDATA from './tasks.js';
+
+const tasks = ref(TASKSDATA);
+</script>
 
 <template>
   <main class="container">
@@ -20,21 +25,12 @@
     </div>
 
     <div class="tasks">
-      <div class="task">
-        <h3>Website design</h3>
-        <p>Define the style guide, branding and create the webdesign on Figma.</p>
+      <div v-for="task in tasks" :key="task.id" class="task">
+        <h3>{{ task.name }}</h3>
+        <p>{{ task.description }}</p>
         <div class="task-check">
-          <input type="checkbox" checked />
-          <label> Done </label>
-        </div>
-      </div>
-
-      <div class="task">
-        <h3>Website development</h3>
-        <p>Develop the portfolio website using Vue JS.</p>
-        <div class="task-check">
-          <input type="checkbox" />
-          <label> To-Do </label>
+          <input type="checkbox" :checked="task.completed" />
+          <label>{{ task.completed ? 'Done' : 'To-Do' }}</label>
         </div>
       </div>
     </div>

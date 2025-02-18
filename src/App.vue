@@ -3,6 +3,27 @@ import { ref } from 'vue';
 import TASKSDATA from './tasks.js';
 
 const tasks = ref(TASKSDATA);
+
+let newTask = {
+  name: '',
+  description: '',
+  completed: false,
+};
+
+function addTask() {
+  if (newTask.name && newTask.description) {
+    newTask.id = Math.max(...tasks.value.map(task => task.id)) + 1;
+    tasks.value.push(newTask);
+
+    newTask = {
+      name: '',
+      description: '',
+      completed: false,
+    };
+  } else {
+    alert('Name and description are required');
+  }
+}
 </script>
 
 <template>
@@ -38,14 +59,14 @@ const tasks = ref(TASKSDATA);
     <div class="add-task">
       <h3>Add a new task</h3>
       <div>
-        <input type="text" name="title" placeholder="Enter a title..." />
+        <input type="text" name="title" placeholder="Enter a title..." v-model="newTask.name" />
         <div class="error-text"><div>Name is required</div></div>
       </div>
       <div>
-        <textarea name="description" rows="4" placeholder="Enter a description..." />
+        <textarea name="description" rows="4" placeholder="Enter a description..." v-model="newTask.description" />
         <div class="error-text"><div>Description is required</div></div>
       </div>
-      <button class="btn primary">Add Task</button>
+      <button class="btn primary" @click="addTask">Add Task</button>
     </div>
   </main>
 </template>

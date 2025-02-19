@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
@@ -8,6 +8,19 @@ const tasks = ref(TASKSDATA);
 const isTaskNameError = ref(false);
 const isTaskDescriptionError = ref(false);
 const filterBy = ref('');
+
+const filteredTasks = computed(() => {
+  switch (filterBy.value) {
+    case 'todo':
+      return tasks.value.filter(task => !task.completed);
+
+    case 'done':
+      return tasks.value.filter(task => task.completed);
+
+    default:
+      return tasks.value;
+  }
+});
 
 const newTask = ref({
   name: '',
@@ -44,6 +57,10 @@ function toggleCompleted(id) {
   }
 }
 
+function setFilter(filter) {
+  filterBy.value = filter;
+}
+
 watch(
   () => newTask.value.name,
   newValue => {
@@ -71,10 +88,10 @@ watch(
       </div>
     </div>
 
-    <Filter :filterBy="filterBy" />
+    <Filter :filterBy="filterBy" @set-filter="setFilter" />
 
     <div class="tasks">
-      <Task v-for="task in tasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
+      <Task v-for="task in filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
     </div>
 
     <div class="add-task">

@@ -1,5 +1,6 @@
 <script setup>
 const props = defineProps(['filterBy']);
+const emit = defineEmits(['setFilter']);
 </script>
 
 <template>
@@ -7,9 +8,11 @@ const props = defineProps(['filterBy']);
     <div>
       <p>Filter by state</p>
       <div class="badges">
-        <div class="badge" :class="{ selected: filterBy === 'todo' }">To-Do</div>
-        <div class="badge" :class="{ selected: filterBy === 'done' }">Done</div>
-        <span v-if="filterBy === 'todo' || filterBy === 'done'" class="clear"> x clear </span>
+        <div @click="$emit('setFilter', 'todo')" class="badge" :class="{ selected: filterBy === 'todo' }">To-Do</div>
+        <div @click="$emit('setFilter', 'done')" class="badge" :class="{ selected: filterBy === 'done' }">Done</div>
+        <span @click="$emit('setFilter', '')" v-if="filterBy === 'todo' || filterBy === 'done'" class="clear">
+          x clear
+        </span>
       </div>
     </div>
   </div>

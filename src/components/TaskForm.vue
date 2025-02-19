@@ -1,7 +1,9 @@
 <script setup>
-import { inject, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
-const tasks = inject('tasks');
+import { useTasksStore } from '@/stores/tasksStore.js';
+
+const store = useTasksStore();
 
 const isTaskNameError = ref(false);
 const isTaskDescriptionError = ref(false);
@@ -14,8 +16,8 @@ const newTask = ref({
 
 function addTask() {
   if (newTask.value.name && newTask.value.description) {
-    newTask.value.id = Math.max(...tasks.value.map(task => task.id)) + 1;
-    tasks.value.push({ ...newTask.value });
+    newTask.value.id = Math.max(...store.tasks.map(task => task.id)) + 1;
+    store.tasks.push({ ...newTask.value });
 
     newTask.value = {
       name: '',

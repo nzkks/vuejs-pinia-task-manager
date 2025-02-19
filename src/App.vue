@@ -1,32 +1,33 @@
 <script setup>
-import { computed, provide, ref } from 'vue';
-import TASKSDATA from './tasks.js';
+import { computed, ref } from 'vue';
+
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
 import Modal from './components/modal/Modal.vue';
 import TaskForm from './components/TaskForm.vue';
 
-const tasks = ref(TASKSDATA);
+import { useTasksStore } from '@/stores/tasksStore.js';
+
+const store = useTasksStore();
+
 const filterBy = ref('');
 const isModalOpen = ref(false);
-
-provide('tasks', tasks);
 
 const filteredTasks = computed(() => {
   switch (filterBy.value) {
     case 'todo':
-      return tasks.value.filter(task => !task.completed);
+      return store.tasks.filter(task => !task.completed);
 
     case 'done':
-      return tasks.value.filter(task => task.completed);
+      return store.tasks.filter(task => task.completed);
 
     default:
-      return tasks.value;
+      return store.tasks;
   }
 });
 
 function toggleCompleted(id) {
-  for (let task of tasks.value) {
+  for (let task of store.tasks) {
     if (task.id === id) {
       task.completed = !task.completed;
     }

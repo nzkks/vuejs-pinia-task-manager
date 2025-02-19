@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useTasksStore = defineStore('tasks', {
-  // other options...
+import TASKSDATA from '../tasks.js';
+
+export const useTasksStore = defineStore('tasks', () => {
+  const tasks = ref(TASKSDATA);
+
+  return { tasks };
 });

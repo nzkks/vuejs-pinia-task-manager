@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, ref, watch } from 'vue';
 
 export const useTasksStore = defineStore('tasks', () => {
-  const tasks = ref([]);
+  const tasks = ref(JSON.parse(localStorage.getItem('tasks')) || []);
   const filterBy = ref('');
 
   const isTaskNameError = ref(false);

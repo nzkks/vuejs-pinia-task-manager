@@ -3,11 +3,14 @@ import { computed, ref, watch } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
+import Modal from './components/Modal.vue';
+import TaskForm from './components/TaskForm.vue';
 
 const tasks = ref(TASKSDATA);
 const isTaskNameError = ref(false);
 const isTaskDescriptionError = ref(false);
 const filterBy = ref('');
+const isModalOpen = ref(false);
 
 const filteredTasks = computed(() => {
   switch (filterBy.value) {
@@ -61,6 +64,10 @@ function setFilter(filter) {
   filterBy.value = filter;
 }
 
+function handleOpenAddTaskModal() {
+  isModalOpen.value = true;
+}
+
 watch(
   () => newTask.value.name,
   newValue => {
@@ -86,6 +93,9 @@ watch(
       <div class="header-side">
         <h1>Tasks Manager</h1>
       </div>
+      <div class="header-side">
+        <button class="btn primary" @click="handleOpenAddTaskModal">+ Add Task</button>
+      </div>
     </div>
 
     <Filter :filterBy="filterBy" @set-filter="setFilter" />
@@ -107,6 +117,12 @@ watch(
       <button class="btn primary" @click="addTask">Add Task</button>
     </div>
   </main>
+
+  <Teleport to="body">
+    <Modal v-if="isModalOpen">
+      <TaskForm />
+    </Modal>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>

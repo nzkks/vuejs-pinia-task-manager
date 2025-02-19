@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
@@ -7,8 +7,6 @@ import Modal from './components/Modal.vue';
 import TaskForm from './components/TaskForm.vue';
 
 const tasks = ref(TASKSDATA);
-const isTaskNameError = ref(false);
-const isTaskDescriptionError = ref(false);
 const filterBy = ref('');
 const isModalOpen = ref(false);
 
@@ -24,33 +22,6 @@ const filteredTasks = computed(() => {
       return tasks.value;
   }
 });
-
-const newTask = ref({
-  name: '',
-  description: '',
-  completed: false,
-});
-
-function addTask() {
-  if (newTask.value.name && newTask.value.description) {
-    newTask.value.id = Math.max(...tasks.value.map(task => task.id)) + 1;
-    tasks.value.push({ ...newTask.value });
-
-    newTask.value = {
-      name: '',
-      description: '',
-      completed: false,
-    };
-  } else {
-    if (newTask.value.name === '') {
-      isTaskNameError.value = true;
-    }
-
-    if (newTask.value.description === '') {
-      isTaskDescriptionError.value = true;
-    }
-  }
-}
 
 function toggleCompleted(id) {
   for (let task of tasks.value) {
@@ -71,24 +42,6 @@ function handleOpenAddTaskModal() {
 function closeModal() {
   isModalOpen.value = false;
 }
-
-watch(
-  () => newTask.value.name,
-  newValue => {
-    if (newValue) {
-      isTaskNameError.value = false;
-    }
-  }
-);
-
-watch(
-  () => newTask.value.description,
-  newValue => {
-    if (newValue) {
-      isTaskDescriptionError.value = false;
-    }
-  }
-);
 </script>
 
 <template>
@@ -107,23 +60,11 @@ watch(
     <div class="tasks">
       <Task v-for="task in filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
     </div>
-
-    <div class="add-task">
-      <h3>Add a new task</h3>
-      <div :class="{ error: isTaskNameError }">
-        <input type="text" name="title" placeholder="Enter a title..." v-model="newTask.name" />
-        <div class="error-text"><div v-if="isTaskNameError">Name is required</div></div>
-      </div>
-      <div :class="{ error: isTaskDescriptionError }">
-        <textarea name="description" rows="4" placeholder="Enter a description..." v-model="newTask.description" />
-        <div class="error-text"><div v-if="isTaskDescriptionError">Description is required</div></div>
-      </div>
-      <button class="btn primary" @click="addTask">Add Task</button>
-    </div>
   </main>
 
   <Teleport to="body">
     <Modal v-if="isModalOpen" @close-modal="closeModal">
+      <template #header> Add Task </template>
       <TaskForm />
     </Modal>
   </Teleport>
@@ -161,38 +102,6 @@ watch(
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-.add-task {
-  margin-top: 60px;
-
-  input,
-  textarea {
-    width: 360px;
-    max-width: 100%;
-    margin-top: 12px;
-    padding: 5px;
-    border: 1px solid #0000;
-    border-radius: 4px;
-  }
-
-  button {
-    width: 360px;
-    margin-top: 12px;
-  }
-
-  .error {
-    input,
-    textarea {
-      border: 1px solid red;
-    }
-  }
-
-  .error-text {
-    color: red;
-    font-size: 12px;
-    height: 24px;
   }
 }
 </style>

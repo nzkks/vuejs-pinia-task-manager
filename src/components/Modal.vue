@@ -14,6 +14,7 @@ function closeModal() {
       <ModalCloseButton @close-modal="closeModal" />
 
       <div>
+        <h3><slot name="header"></slot></h3>
         <slot></slot>
       </div>
     </div>
@@ -40,7 +41,7 @@ function closeModal() {
     display: flex;
     flex-direction: column;
     position: relative;
-    max-width: 600px;
+    max-width: 320px;
     width: 90%;
 
     h3 {

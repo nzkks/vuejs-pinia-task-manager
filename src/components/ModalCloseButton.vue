@@ -15,6 +15,8 @@ const emit = defineEmits(['close-modal']);
 
 <style lang="scss" scoped>
 .close-btn {
+  width: 14px;
+  height: 14px;
   position: absolute;
   top: 15px;
   right: 15px;

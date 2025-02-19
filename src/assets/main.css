@@ -47,8 +47,3 @@ body {
   background-color: var(--gray-color);
   color: var(--black-color);
 }
-
-.close-btn {
-  width: 14px;
-  height: 14px;
-}

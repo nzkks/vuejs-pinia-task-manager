@@ -51,6 +51,8 @@ export const useTasksStore = defineStore('tasks', () => {
         description: '',
         completed: false,
       };
+
+      closeModal();
     } else {
       if (newTask.value.name === '') {
         isTaskNameError.value = true;

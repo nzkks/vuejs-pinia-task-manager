@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
+import Filter from './components/Filter.vue';
 
 const tasks = ref(TASKSDATA);
 const isTaskNameError = ref(false);
@@ -69,16 +70,7 @@ watch(
       </div>
     </div>
 
-    <div class="filters">
-      <div>
-        <p>Filter by state</p>
-        <div class="badges">
-          <div class="badge">To-Do</div>
-          <div class="badge">Done</div>
-          <span class="clear"> x clear </span>
-        </div>
-      </div>
-    </div>
+    <Filter />
 
     <div class="tasks">
       <Task v-for="task in tasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
@@ -121,37 +113,6 @@ watch(
     .secondary {
       margin-left: 12px;
     }
-  }
-}
-
-.filters {
-  display: flex;
-  flex-direction: column;
-  margin: 40px 0;
-
-  p {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 21px;
-    letter-spacing: 0em;
-    text-align: left;
-  }
-
-  .badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 14px 0;
-    align-items: center;
-  }
-
-  .clear {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
-    cursor: pointer;
   }
 }
 

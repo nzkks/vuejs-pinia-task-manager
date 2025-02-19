@@ -3,7 +3,7 @@ import { computed, provide, ref } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
-import Modal from './components/Modal.vue';
+import Modal from './components/modal/Modal.vue';
 import TaskForm from './components/TaskForm.vue';
 
 const tasks = ref(TASKSDATA);

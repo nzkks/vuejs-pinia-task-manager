@@ -68,6 +68,10 @@ function handleOpenAddTaskModal() {
   isModalOpen.value = true;
 }
 
+function closeModal() {
+  isModalOpen.value = false;
+}
+
 watch(
   () => newTask.value.name,
   newValue => {
@@ -119,7 +123,7 @@ watch(
   </main>
 
   <Teleport to="body">
-    <Modal v-if="isModalOpen">
+    <Modal v-if="isModalOpen" @close-modal="closeModal">
       <TaskForm />
     </Modal>
   </Teleport>

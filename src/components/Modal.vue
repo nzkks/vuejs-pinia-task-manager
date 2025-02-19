@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import ModalCloseButton from './ModalCloseButton.vue';
+
+const emit = defineEmits(['close-modal']);
+
+function closeModal() {
+  emit('close-modal');
+}
 </script>
 
 <template>
   <div class="modal-wrapper" aria-modal="true" role="dialog" tabindex="-1">
     <div class="inner">
-      <ModalCloseButton />
+      <ModalCloseButton @close-modal="closeModal" />
 
       <div>
         <slot></slot>

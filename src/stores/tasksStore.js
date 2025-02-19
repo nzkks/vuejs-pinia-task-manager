@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import TASKSDATA from '../tasks.js';
 
@@ -11,5 +11,18 @@ export const useTasksStore = defineStore('tasks', () => {
     filterBy.value = filter;
   }
 
-  return { tasks, filterBy, setFilter };
+  const filteredTasks = computed(() => {
+    switch (filterBy.value) {
+      case 'todo':
+        return tasks.value.filter(task => !task.completed);
+
+      case 'done':
+        return tasks.value.filter(task => task.completed);
+
+      default:
+        return tasks.value;
+    }
+  });
+
+  return { tasks, filterBy, setFilter, filteredTasks };
 });

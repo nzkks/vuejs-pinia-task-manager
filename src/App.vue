@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
@@ -11,19 +11,6 @@ import { useTasksStore } from '@/stores/tasksStore.js';
 const store = useTasksStore();
 
 const isModalOpen = ref(false);
-
-const filteredTasks = computed(() => {
-  switch (store.filterBy) {
-    case 'todo':
-      return store.tasks.filter(task => !task.completed);
-
-    case 'done':
-      return store.tasks.filter(task => task.completed);
-
-    default:
-      return store.tasks;
-  }
-});
 
 function toggleCompleted(id) {
   for (let task of store.tasks) {
@@ -56,7 +43,7 @@ function closeModal() {
     <Filter />
 
     <div class="tasks">
-      <Task v-for="task in filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
+      <Task v-for="task in store.filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
     </div>
   </main>
 

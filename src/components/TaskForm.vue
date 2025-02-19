@@ -1,72 +1,22 @@
 <script setup>
-import { ref, watch } from 'vue';
-
 import { useTasksStore } from '@/stores/tasksStore.js';
 
 const store = useTasksStore();
-
-const isTaskNameError = ref(false);
-const isTaskDescriptionError = ref(false);
-
-const newTask = ref({
-  name: '',
-  description: '',
-  completed: false,
-});
-
-function addTask() {
-  if (newTask.value.name && newTask.value.description) {
-    newTask.value.id = Math.max(...store.tasks.map(task => task.id)) + 1;
-    store.tasks.push({ ...newTask.value });
-
-    newTask.value = {
-      name: '',
-      description: '',
-      completed: false,
-    };
-  } else {
-    if (newTask.value.name === '') {
-      isTaskNameError.value = true;
-    }
-
-    if (newTask.value.description === '') {
-      isTaskDescriptionError.value = true;
-    }
-  }
-}
-
-watch(
-  () => newTask.value.name,
-  newValue => {
-    if (newValue) {
-      isTaskNameError.value = false;
-    }
-  }
-);
-
-watch(
-  () => newTask.value.description,
-  newValue => {
-    if (newValue) {
-      isTaskDescriptionError.value = false;
-    }
-  }
-);
 </script>
 
 <template>
   <div class="form add-task">
-    <div :class="{ error: isTaskNameError }">
+    <div :class="{ error: store.isTaskNameError }">
       <label for="title">Title</label>
-      <input type="text" name="title" v-model="newTask.name" />
-      <div class="error-text"><div v-if="isTaskNameError">Task title is required</div></div>
+      <input type="text" name="title" v-model="store.newTask.name" />
+      <div class="error-text"><div v-if="store.isTaskNameError">Task title is required</div></div>
     </div>
-    <div :class="{ error: isTaskDescriptionError }">
+    <div :class="{ error: store.isTaskDescriptionError }">
       <label for="description">Description</label>
-      <textarea name="description" rows="4" v-model="newTask.description" />
-      <div class="error-text"><div v-if="isTaskDescriptionError">Description is required</div></div>
+      <textarea name="description" rows="4" v-model="store.newTask.description" />
+      <div class="error-text"><div v-if="store.isTaskDescriptionError">Description is required</div></div>
     </div>
-    <button class="btn primary" @click="addTask">Add Task</button>
+    <button class="btn primary" @click="store.addTask">Add Task</button>
   </div>
 </template>
 <style lang="scss" scoped>

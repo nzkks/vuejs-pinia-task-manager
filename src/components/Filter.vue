@@ -1,11 +1,15 @@
+<script setup>
+const props = defineProps(['filterBy']);
+</script>
+
 <template>
   <div class="filters">
     <div>
       <p>Filter by state</p>
       <div class="badges">
-        <div class="badge">To-Do</div>
-        <div class="badge">Done</div>
-        <span class="clear"> x clear </span>
+        <div class="badge" :class="{ selected: filterBy === 'todo' }">To-Do</div>
+        <div class="badge" :class="{ selected: filterBy === 'done' }">Done</div>
+        <span v-if="filterBy === 'todo' || filterBy === 'done'" class="clear"> x clear </span>
       </div>
     </div>
   </div>

@@ -7,6 +7,7 @@ import Filter from './components/Filter.vue';
 const tasks = ref(TASKSDATA);
 const isTaskNameError = ref(false);
 const isTaskDescriptionError = ref(false);
+const filterBy = ref('');
 
 const newTask = ref({
   name: '',
@@ -70,7 +71,7 @@ watch(
       </div>
     </div>
 
-    <Filter />
+    <Filter :filterBy="filterBy" />
 
     <div class="tasks">
       <Task v-for="task in tasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />

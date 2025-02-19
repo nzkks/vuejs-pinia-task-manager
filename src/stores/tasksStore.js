@@ -80,6 +80,16 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   );
 
+  const isModalOpen = ref(false);
+
+  function handleOpenAddTaskModal() {
+    isModalOpen.value = true;
+  }
+
+  function closeModal() {
+    isModalOpen.value = false;
+  }
+
   return {
     tasks,
     filterBy,
@@ -90,5 +100,8 @@ export const useTasksStore = defineStore('tasks', () => {
     addTask,
     isTaskNameError,
     isTaskDescriptionError,
+    isModalOpen,
+    handleOpenAddTaskModal,
+    closeModal,
   };
 });

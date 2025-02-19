@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue';
-
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
 import Modal from './components/modal/Modal.vue';
@@ -9,16 +7,6 @@ import TaskForm from './components/TaskForm.vue';
 import { useTasksStore } from '@/stores/tasksStore.js';
 
 const store = useTasksStore();
-
-const isModalOpen = ref(false);
-
-function handleOpenAddTaskModal() {
-  isModalOpen.value = true;
-}
-
-function closeModal() {
-  isModalOpen.value = false;
-}
 </script>
 
 <template>
@@ -28,7 +16,7 @@ function closeModal() {
         <h1>Tasks Manager</h1>
       </div>
       <div class="header-side">
-        <button class="btn primary" @click="handleOpenAddTaskModal">+ Add Task</button>
+        <button class="btn primary" @click="store.handleOpenAddTaskModal">+ Add Task</button>
       </div>
     </div>
 
@@ -40,7 +28,7 @@ function closeModal() {
   </main>
 
   <Teleport to="body">
-    <Modal v-if="isModalOpen" @close-modal="closeModal">
+    <Modal v-if="store.isModalOpen">
       <template #header> Add Task </template>
       <TaskForm />
     </Modal>

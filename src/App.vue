@@ -10,11 +10,10 @@ import { useTasksStore } from '@/stores/tasksStore.js';
 
 const store = useTasksStore();
 
-const filterBy = ref('');
 const isModalOpen = ref(false);
 
 const filteredTasks = computed(() => {
-  switch (filterBy.value) {
+  switch (store.filterBy) {
     case 'todo':
       return store.tasks.filter(task => !task.completed);
 
@@ -32,10 +31,6 @@ function toggleCompleted(id) {
       task.completed = !task.completed;
     }
   }
-}
-
-function setFilter(filter) {
-  filterBy.value = filter;
 }
 
 function handleOpenAddTaskModal() {
@@ -58,7 +53,7 @@ function closeModal() {
       </div>
     </div>
 
-    <Filter :filterBy="filterBy" @set-filter="setFilter" />
+    <Filter />
 
     <div class="tasks">
       <Task v-for="task in filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />

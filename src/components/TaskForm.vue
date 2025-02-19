@@ -1,5 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { inject, ref, watch } from 'vue';
+
+const tasks = inject('tasks');
 
 const isTaskNameError = ref(false);
 const isTaskDescriptionError = ref(false);

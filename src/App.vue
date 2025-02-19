@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, provide, ref } from 'vue';
 import TASKSDATA from './tasks.js';
 import Task from './components/Task.vue';
 import Filter from './components/Filter.vue';
@@ -9,6 +9,8 @@ import TaskForm from './components/TaskForm.vue';
 const tasks = ref(TASKSDATA);
 const filterBy = ref('');
 const isModalOpen = ref(false);
+
+provide('tasks', tasks);
 
 const filteredTasks = computed(() => {
   switch (filterBy.value) {

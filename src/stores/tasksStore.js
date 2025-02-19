@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
 import { computed, ref, watch } from 'vue';
 
-import TASKSDATA from '../tasks.js';
-
 export const useTasksStore = defineStore('tasks', () => {
-  const tasks = ref(TASKSDATA);
+  const tasks = ref([]);
   const filterBy = ref('');
 
   const isTaskNameError = ref(false);
@@ -43,7 +41,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
   function addTask() {
     if (newTask.value.name && newTask.value.description) {
-      newTask.value.id = Math.max(...tasks.value.map(task => task.id)) + 1;
+      newTask.value.id = tasks.value.length ? Math.max(...tasks.value.map(task => task.id)) + 1 : 1;
       tasks.value.push({ ...newTask.value });
 
       newTask.value = {

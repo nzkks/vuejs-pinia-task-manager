@@ -7,12 +7,12 @@ const store = useTasksStore();
 <template>
   <div class="form add-task">
     <div :class="{ error: store.isTaskNameError }">
-      <label for="title">Title</label>
+      <label for="title">Title *</label>
       <input type="text" name="title" v-model="store.newTask.name" />
       <div class="error-text"><div v-if="store.isTaskNameError">Task title is required</div></div>
     </div>
     <div :class="{ error: store.isTaskDescriptionError }">
-      <label for="description">Description</label>
+      <label for="description">Description *</label>
       <textarea name="description" rows="4" v-model="store.newTask.description" />
       <div class="error-text"><div v-if="store.isTaskDescriptionError">Description is required</div></div>
     </div>

@@ -12,14 +12,6 @@ const store = useTasksStore();
 
 const isModalOpen = ref(false);
 
-function toggleCompleted(id) {
-  for (let task of store.tasks) {
-    if (task.id === id) {
-      task.completed = !task.completed;
-    }
-  }
-}
-
 function handleOpenAddTaskModal() {
   isModalOpen.value = true;
 }
@@ -43,7 +35,7 @@ function closeModal() {
     <Filter />
 
     <div class="tasks">
-      <Task v-for="task in store.filteredTasks" :key="task.id" :task="task" @toggle-completed="toggleCompleted" />
+      <Task v-for="task in store.filteredTasks" :key="task.id" :task="task" />
     </div>
   </main>
 

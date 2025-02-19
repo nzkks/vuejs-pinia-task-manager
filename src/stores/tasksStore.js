@@ -24,5 +24,13 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   });
 
-  return { tasks, filterBy, setFilter, filteredTasks };
+  function toggleCompleted(id) {
+    for (let task of tasks.value) {
+      if (task.id === id) {
+        task.completed = !task.completed;
+      }
+    }
+  }
+
+  return { tasks, filterBy, setFilter, filteredTasks, toggleCompleted };
 });
